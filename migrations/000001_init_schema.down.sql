@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS media_files;
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS users;
+
+DROP TYPE IF EXISTS task_status;
+DROP TYPE IF EXISTS project_status;
+DROP TYPE IF EXISTS user_role;

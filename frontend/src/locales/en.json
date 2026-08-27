@@ -1,0 +1,225 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "edit": "Edit",
+    "save": "Save",
+    "saving": "Saving...",
+    "create": "Create",
+    "creating": "Creating...",
+    "close": "Close",
+    "optional": "optional",
+    "notAssigned": "Not assigned",
+    "assignee": "Assignee: {{id}}",
+    "you": "you"
+  },
+  "language": {
+    "label": "Language",
+    "ru": "RU",
+    "kk": "ҚАЗ",
+    "en": "EN"
+  },
+  "nav": {
+    "brand": "Project Hub",
+    "logout": "Log out",
+    "login": "Log in",
+    "register": "Sign up"
+  },
+  "auth": {
+    "login": {
+      "title": "Log In",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log In",
+      "submitting": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Sign up",
+      "errors": {
+        "emailInvalid": "Enter a valid email",
+        "passwordShort": "Password must be at least 6 characters"
+      }
+    },
+    "register": {
+      "title": "Sign Up",
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "curatorSecret": "Curator secret key",
+      "curatorSecretPlaceholder": "Key issued by the administration",
+      "curatorHint": "The account will be created with the curator (ADMIN) role.",
+      "role": "Role",
+      "roleMember": "Team member",
+      "roleLead": "Project lead",
+      "submit": "Sign Up",
+      "submitting": "Signing up...",
+      "toggleToCurator": "Curator sign-up",
+      "toggleToNormal": "Regular sign-up",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "errors": {
+        "fullNameShort": "Enter a name (at least 2 characters)",
+        "emailInvalid": "Enter a valid email",
+        "passwordShort": "Password must be at least 6 characters",
+        "passwordMismatch": "Passwords do not match",
+        "curatorSecretRequired": "Enter the curator secret key"
+      }
+    }
+  },
+  "projectStatus": {
+    "PLANNED": "Planned",
+    "IN_PROGRESS": "In Progress",
+    "COMPLETED": "Completed",
+    "ARCHIVED": "Archived"
+  },
+  "approval": {
+    "approved": "Approved",
+    "pending": "Pending sign-off"
+  },
+  "projects": {
+    "title": "Projects",
+    "newProject": "New Project",
+    "viewGrid": "Grid",
+    "viewGridAria": "Grid view",
+    "viewTable": "Table",
+    "viewTableAria": "Jira-style table",
+    "empty": "No projects yet.",
+    "noDescription": "No description",
+    "editAria": "Edit \"{{title}}\"",
+    "deleteAria": "Delete \"{{title}}\"",
+    "filters": {
+      "ALL": "All",
+      "PLANNED": "Planned",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed"
+    },
+    "toasts": {
+      "created": "Project created",
+      "updated": "Project updated",
+      "deleted": "Project \"{{title}}\" deleted",
+      "approved": "Project approved",
+      "approvalRevoked": "Approval revoked"
+    },
+    "deleteConfirm": {
+      "title": "Delete project",
+      "message": "Delete project \"{{title}}\"? This action cannot be undone."
+    },
+    "createModal": {
+      "title": "New Project",
+      "titleLabel": "Title",
+      "descriptionLabel": "Description",
+      "titleRequired": "Title is required"
+    },
+    "editModal": {
+      "title": "Edit Project",
+      "statusLabel": "Status"
+    },
+    "dashboard": {
+      "heading": "Practice Curator Dashboard",
+      "students": "Students / Teams",
+      "filesUploaded": "Specs Uploaded",
+      "approved": "Approved",
+      "pending": "Pending Sign-off"
+    },
+    "table": {
+      "title": "Title",
+      "status": "Status",
+      "owner": "Team / Student",
+      "files": "Spec / Files",
+      "progress": "Task Progress",
+      "approval": "Sign-off",
+      "date": "Date",
+      "filesCount": "{{count}} file(s)",
+      "noFiles": "no files",
+      "approve": "Approve"
+    }
+  },
+  "projectDetail": {
+    "loading": "Loading...",
+    "notFound": "Project not found",
+    "noTitle": "Untitled",
+    "noDescription": "No description",
+    "creator": "Creator: {{owner}}"
+  },
+  "curatorBanner": {
+    "approvedTitle": "Project approved by the curator for practice defense",
+    "pendingTitle": "Project awaiting curator approval",
+    "hint": "The curator (ADMIN role) confirms the project is ready for KBTU practice defense.",
+    "revoke": "Revoke approval",
+    "approve": "Approve project for practice defense",
+    "toastApproved": "Project approved for practice defense",
+    "toastRevoked": "Approval revoked"
+  },
+  "tasks": {
+    "heading": "Tasks",
+    "newTask": "New Task",
+    "empty": "No tasks",
+    "editAria": "Edit \"{{title}}\"",
+    "deleteAria": "Delete \"{{title}}\"",
+    "status": {
+      "TODO": "To Do",
+      "IN_PROGRESS": "In Progress",
+      "DONE": "Done"
+    },
+    "advance": {
+      "TODO": "Start",
+      "IN_PROGRESS": "Finish"
+    },
+    "priority": {
+      "HIGH": "High",
+      "MEDIUM": "Medium",
+      "LOW": "Low"
+    },
+    "toasts": {
+      "created": "Task created",
+      "updated": "Task updated",
+      "deleted": "\"{{title}}\" deleted",
+      "moved": "\"{{title}}\" moved to \"{{status}}\""
+    },
+    "deleteConfirm": {
+      "title": "Delete task",
+      "message": "Delete task \"{{title}}\"? This action cannot be undone."
+    },
+    "form": {
+      "titleLabel": "Title",
+      "descriptionLabel": "Description",
+      "assigneeLabel": "Assignee ID (optional)",
+      "assigneePlaceholder": "User UUID",
+      "priorityLabel": "Priority",
+      "dueDateLabel": "Due date (optional)",
+      "titleRequired": "Title is required"
+    },
+    "createModal": {
+      "title": "New Task"
+    },
+    "editModal": {
+      "title": "Edit Task"
+    }
+  },
+  "files": {
+    "heading": "Files",
+    "dropHint": "Drag a file here or",
+    "browse": "choose a file",
+    "uploading": "Uploading...",
+    "empty": "No files yet.",
+    "downloadAria": "Download {{name}}",
+    "deleteAria": "Delete {{name}}",
+    "toasts": {
+      "uploaded": "File \"{{name}}\" uploaded",
+      "deleted": "File \"{{name}}\" deleted"
+    },
+    "deleteConfirm": {
+      "title": "Delete file",
+      "message": "Delete file \"{{name}}\"? This action cannot be undone."
+    }
+  },
+  "modal": {
+    "closeAria": "Close"
+  },
+  "toast": {
+    "dismissAria": "Dismiss notification"
+  }
+}

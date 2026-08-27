@@ -1,0 +1,19 @@
+# Environment variables — contains real secrets (DB passwords, JWT secret).
+# .env.example is the safe, tracked template; never un-ignore .env itself.
+.env
+.env.*
+!.env.example
+
+# Go build artifacts
+/api
+*.exe
+*.test
+
+# Local file uploads (dev/runtime data, not source)
+/uploads
+
+# Editor/OS cruft
+.idea
+.vscode/*
+!.vscode/extensions.json
+.DS_Store

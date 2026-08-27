@@ -1,0 +1,225 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "delete": "Удалить",
+    "deleting": "Удаление...",
+    "edit": "Редактировать",
+    "save": "Сохранить",
+    "saving": "Сохранение...",
+    "create": "Создать",
+    "creating": "Создание...",
+    "close": "Закрыть",
+    "optional": "опционально",
+    "notAssigned": "Не назначено",
+    "assignee": "Исполнитель: {{id}}",
+    "you": "вы"
+  },
+  "language": {
+    "label": "Язык",
+    "ru": "RU",
+    "kk": "ҚАЗ",
+    "en": "EN"
+  },
+  "nav": {
+    "brand": "Project Hub",
+    "logout": "Выйти",
+    "login": "Вход",
+    "register": "Регистрация"
+  },
+  "auth": {
+    "login": {
+      "title": "Вход",
+      "email": "Email",
+      "password": "Пароль",
+      "submit": "Войти",
+      "submitting": "Вход...",
+      "noAccount": "Нет аккаунта?",
+      "registerLink": "Зарегистрироваться",
+      "errors": {
+        "emailInvalid": "Введите корректный email",
+        "passwordShort": "Пароль должен быть не короче 6 символов"
+      }
+    },
+    "register": {
+      "title": "Регистрация",
+      "fullName": "Имя",
+      "email": "Email",
+      "password": "Пароль",
+      "confirmPassword": "Подтверждение пароля",
+      "curatorSecret": "Секретный ключ куратора",
+      "curatorSecretPlaceholder": "Ключ, выданный администрацией",
+      "curatorHint": "Аккаунт будет создан с ролью куратора (ADMIN).",
+      "role": "Роль",
+      "roleMember": "Участник команды",
+      "roleLead": "Лид проекта",
+      "submit": "Зарегистрироваться",
+      "submitting": "Регистрация...",
+      "toggleToCurator": "Вход для куратора",
+      "toggleToNormal": "Обычная регистрация",
+      "haveAccount": "Уже есть аккаунт?",
+      "loginLink": "Войти",
+      "errors": {
+        "fullNameShort": "Введите имя (минимум 2 символа)",
+        "emailInvalid": "Введите корректный email",
+        "passwordShort": "Пароль должен быть не короче 6 символов",
+        "passwordMismatch": "Пароли не совпадают",
+        "curatorSecretRequired": "Введите секретный ключ куратора"
+      }
+    }
+  },
+  "projectStatus": {
+    "PLANNED": "Запланирован",
+    "IN_PROGRESS": "В работе",
+    "COMPLETED": "Завершён",
+    "ARCHIVED": "Архивирован"
+  },
+  "approval": {
+    "approved": "Утверждено",
+    "pending": "Ожидает подписи"
+  },
+  "projects": {
+    "title": "Проекты",
+    "newProject": "Новый проект",
+    "viewGrid": "Сетка",
+    "viewGridAria": "Вид сеткой",
+    "viewTable": "Таблица",
+    "viewTableAria": "Таблица Jira",
+    "empty": "Проектов пока нет.",
+    "noDescription": "Без описания",
+    "editAria": "Редактировать «{{title}}»",
+    "deleteAria": "Удалить «{{title}}»",
+    "filters": {
+      "ALL": "Все",
+      "PLANNED": "Запланирован",
+      "IN_PROGRESS": "В работе",
+      "COMPLETED": "Завершён"
+    },
+    "toasts": {
+      "created": "Проект создан",
+      "updated": "Проект обновлён",
+      "deleted": "Проект «{{title}}» удалён",
+      "approved": "Проект утверждён",
+      "approvalRevoked": "Утверждение отменено"
+    },
+    "deleteConfirm": {
+      "title": "Удалить проект",
+      "message": "Удалить проект «{{title}}»? Это действие нельзя отменить."
+    },
+    "createModal": {
+      "title": "Новый проект",
+      "titleLabel": "Название",
+      "descriptionLabel": "Описание",
+      "titleRequired": "Название обязательно"
+    },
+    "editModal": {
+      "title": "Редактировать проект",
+      "statusLabel": "Статус"
+    },
+    "dashboard": {
+      "heading": "Панель куратора практики",
+      "students": "Студенты / команды",
+      "filesUploaded": "Загружено ТЗ",
+      "approved": "Утверждено",
+      "pending": "Ожидают подписи"
+    },
+    "table": {
+      "title": "Название",
+      "status": "Статус",
+      "owner": "Команда / Студент",
+      "files": "ТЗ / Файлы",
+      "progress": "Прогресс задач",
+      "approval": "Подпись",
+      "date": "Дата",
+      "filesCount": "{{count}} файл(ов)",
+      "noFiles": "нет файлов",
+      "approve": "Утвердить"
+    }
+  },
+  "projectDetail": {
+    "loading": "Загрузка...",
+    "notFound": "Проект не найден",
+    "noTitle": "Без названия",
+    "noDescription": "Без описания",
+    "creator": "Создатель: {{owner}}"
+  },
+  "curatorBanner": {
+    "approvedTitle": "Проект утверждён куратором для защиты практики",
+    "pendingTitle": "Проект ожидает утверждения куратором",
+    "hint": "Куратор (роль ADMIN) подтверждает готовность проекта к защите практики КБТУ.",
+    "revoke": "Отменить утверждение",
+    "approve": "Утвердить проект для защиты практики",
+    "toastApproved": "Проект утверждён для защиты практики",
+    "toastRevoked": "Утверждение отменено"
+  },
+  "tasks": {
+    "heading": "Задачи",
+    "newTask": "Новая задача",
+    "empty": "Нет задач",
+    "editAria": "Редактировать «{{title}}»",
+    "deleteAria": "Удалить «{{title}}»",
+    "status": {
+      "TODO": "К выполнению",
+      "IN_PROGRESS": "В работе",
+      "DONE": "Готово"
+    },
+    "advance": {
+      "TODO": "Начать",
+      "IN_PROGRESS": "Завершить"
+    },
+    "priority": {
+      "HIGH": "Высокий",
+      "MEDIUM": "Средний",
+      "LOW": "Низкий"
+    },
+    "toasts": {
+      "created": "Задача создана",
+      "updated": "Задача обновлена",
+      "deleted": "«{{title}}» удалена",
+      "moved": "«{{title}}» перемещена в «{{status}}»"
+    },
+    "deleteConfirm": {
+      "title": "Удалить задачу",
+      "message": "Удалить задачу «{{title}}»? Это действие нельзя отменить."
+    },
+    "form": {
+      "titleLabel": "Название",
+      "descriptionLabel": "Описание",
+      "assigneeLabel": "ID исполнителя (опционально)",
+      "assigneePlaceholder": "UUID пользователя",
+      "priorityLabel": "Приоритет",
+      "dueDateLabel": "Срок (опционально)",
+      "titleRequired": "Название обязательно"
+    },
+    "createModal": {
+      "title": "Новая задача"
+    },
+    "editModal": {
+      "title": "Редактировать задачу"
+    }
+  },
+  "files": {
+    "heading": "Файлы",
+    "dropHint": "Перетащите файл сюда или",
+    "browse": "выберите файл",
+    "uploading": "Загрузка...",
+    "empty": "Файлов пока нет.",
+    "downloadAria": "Скачать {{name}}",
+    "deleteAria": "Удалить {{name}}",
+    "toasts": {
+      "uploaded": "Файл «{{name}}» загружен",
+      "deleted": "Файл «{{name}}» удалён"
+    },
+    "deleteConfirm": {
+      "title": "Удалить файл",
+      "message": "Удалить файл «{{name}}»? Это действие нельзя отменить."
+    }
+  },
+  "modal": {
+    "closeAria": "Закрыть"
+  },
+  "toast": {
+    "dismissAria": "Закрыть уведомление"
+  }
+}

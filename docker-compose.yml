@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: project_hub_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: project_hub
+      POSTGRES_PASSWORD: project_hub
+      POSTGRES_DB: project_hub
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U project_hub -d project_hub"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  migrations:
+    image: migrate/migrate:v4.17.1
+    container_name: project_hub_migrations
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./migrations:/migrations
+    command:
+      - "-path=/migrations"
+      - "-database=postgresql://project_hub:project_hub@postgres:5432/project_hub?sslmode=disable"
+      - "up"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: project_hub_api
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_USER: project_hub
+      DB_PASSWORD: project_hub
+      DB_NAME: project_hub
+      DB_SSLMODE: disable
+      JWT_SECRET: dev-secret-change-me
+      JWT_TTL: 24h
+      UPLOAD_DIR: /app/uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+
+volumes:
+  postgres_data:
+  uploads_data:

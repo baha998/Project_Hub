@@ -1,0 +1,225 @@
+{
+  "common": {
+    "loading": "Жүктелуде...",
+    "cancel": "Болдырмау",
+    "confirm": "Растау",
+    "delete": "Жою",
+    "deleting": "Жойылуда...",
+    "edit": "Өңдеу",
+    "save": "Сақтау",
+    "saving": "Сақталуда...",
+    "create": "Жасау",
+    "creating": "Жасалуда...",
+    "close": "Жабу",
+    "optional": "міндетті емес",
+    "notAssigned": "Тағайындалмаған",
+    "assignee": "Орындаушы: {{id}}",
+    "you": "сіз"
+  },
+  "language": {
+    "label": "Тіл",
+    "ru": "RU",
+    "kk": "ҚАЗ",
+    "en": "EN"
+  },
+  "nav": {
+    "brand": "Project Hub",
+    "logout": "Шығу",
+    "login": "Кіру",
+    "register": "Тіркелу"
+  },
+  "auth": {
+    "login": {
+      "title": "Кіру",
+      "email": "Email",
+      "password": "Құпия сөз",
+      "submit": "Кіру",
+      "submitting": "Кіруде...",
+      "noAccount": "Аккаунтыңыз жоқ па?",
+      "registerLink": "Тіркелу",
+      "errors": {
+        "emailInvalid": "Дұрыс email енгізіңіз",
+        "passwordShort": "Құпия сөз кемінде 6 таңбадан тұруы керек"
+      }
+    },
+    "register": {
+      "title": "Тіркелу",
+      "fullName": "Аты-жөні",
+      "email": "Email",
+      "password": "Құпия сөз",
+      "confirmPassword": "Құпия сөзді растау",
+      "curatorSecret": "Куратордың құпия кілті",
+      "curatorSecretPlaceholder": "Әкімшілік берген кілт",
+      "curatorHint": "Аккаунт куратор рөлімен (ADMIN) жасалады.",
+      "role": "Рөл",
+      "roleMember": "Топ мүшесі",
+      "roleLead": "Жоба жетекшісі",
+      "submit": "Тіркелу",
+      "submitting": "Тіркелуде...",
+      "toggleToCurator": "Куратор үшін кіру",
+      "toggleToNormal": "Кәдімгі тіркелу",
+      "haveAccount": "Аккаунтыңыз бар ма?",
+      "loginLink": "Кіру",
+      "errors": {
+        "fullNameShort": "Атыңызды енгізіңіз (кемінде 2 таңба)",
+        "emailInvalid": "Дұрыс email енгізіңіз",
+        "passwordShort": "Құпия сөз кемінде 6 таңбадан тұруы керек",
+        "passwordMismatch": "Құпия сөздер сәйкес келмейді",
+        "curatorSecretRequired": "Куратордың құпия кілтін енгізіңіз"
+      }
+    }
+  },
+  "projectStatus": {
+    "PLANNED": "Жоспарланған",
+    "IN_PROGRESS": "Орындалуда",
+    "COMPLETED": "Аяқталды",
+    "ARCHIVED": "Мұрағатталған"
+  },
+  "approval": {
+    "approved": "Бекітілді",
+    "pending": "Қол қоюды күтуде"
+  },
+  "projects": {
+    "title": "Жобалар",
+    "newProject": "Жаңа жоба",
+    "viewGrid": "Тор",
+    "viewGridAria": "Тор көрінісі",
+    "viewTable": "Кесте",
+    "viewTableAria": "Jira кестесі",
+    "empty": "Әзірге жоба жоқ.",
+    "noDescription": "Сипаттама жоқ",
+    "editAria": "«{{title}}» өңдеу",
+    "deleteAria": "«{{title}}» жою",
+    "filters": {
+      "ALL": "Барлығы",
+      "PLANNED": "Жоспарланған",
+      "IN_PROGRESS": "Орындалуда",
+      "COMPLETED": "Аяқталды"
+    },
+    "toasts": {
+      "created": "Жоба жасалды",
+      "updated": "Жоба жаңартылды",
+      "deleted": "«{{title}}» жобасы жойылды",
+      "approved": "Жоба бекітілді",
+      "approvalRevoked": "Бекіту болдырылмады"
+    },
+    "deleteConfirm": {
+      "title": "Жобаны жою",
+      "message": "«{{title}}» жобасын жоясыз ба? Бұл әрекетті болдырмау мүмкін емес."
+    },
+    "createModal": {
+      "title": "Жаңа жоба",
+      "titleLabel": "Атауы",
+      "descriptionLabel": "Сипаттама",
+      "titleRequired": "Атауы міндетті"
+    },
+    "editModal": {
+      "title": "Жобаны өңдеу",
+      "statusLabel": "Мәртебе"
+    },
+    "dashboard": {
+      "heading": "Практика кураторының тақтасы",
+      "students": "Студенттер / топтар",
+      "filesUploaded": "Жүктелген ТТ",
+      "approved": "Бекітілді",
+      "pending": "Қол қоюды күтуде"
+    },
+    "table": {
+      "title": "Атауы",
+      "status": "Мәртебе",
+      "owner": "Топ / Студент",
+      "files": "ТТ / Файлдар",
+      "progress": "Тапсырмалар барысы",
+      "approval": "Қол қою",
+      "date": "Күні",
+      "filesCount": "{{count}} файл",
+      "noFiles": "файл жоқ",
+      "approve": "Бекіту"
+    }
+  },
+  "projectDetail": {
+    "loading": "Жүктелуде...",
+    "notFound": "Жоба табылмады",
+    "noTitle": "Атаусыз",
+    "noDescription": "Сипаттама жоқ",
+    "creator": "Құрушы: {{owner}}"
+  },
+  "curatorBanner": {
+    "approvedTitle": "Жоба практиканы қорғауға куратормен бекітілді",
+    "pendingTitle": "Жоба куратордың бекітуін күтуде",
+    "hint": "Куратор (ADMIN рөлі) жобаның ҚБТУ практикасын қорғауға дайын екенін растайды.",
+    "revoke": "Бекітуді болдырмау",
+    "approve": "Жобаны практиканы қорғауға бекіту",
+    "toastApproved": "Жоба практиканы қорғауға бекітілді",
+    "toastRevoked": "Бекіту болдырылмады"
+  },
+  "tasks": {
+    "heading": "Тапсырмалар",
+    "newTask": "Жаңа тапсырма",
+    "empty": "Тапсырма жоқ",
+    "editAria": "«{{title}}» өңдеу",
+    "deleteAria": "«{{title}}» жою",
+    "status": {
+      "TODO": "Орындалуы тиіс",
+      "IN_PROGRESS": "Орындалуда",
+      "DONE": "Дайын"
+    },
+    "advance": {
+      "TODO": "Бастау",
+      "IN_PROGRESS": "Аяқтау"
+    },
+    "priority": {
+      "HIGH": "Жоғары",
+      "MEDIUM": "Орташа",
+      "LOW": "Төмен"
+    },
+    "toasts": {
+      "created": "Тапсырма жасалды",
+      "updated": "Тапсырма жаңартылды",
+      "deleted": "«{{title}}» жойылды",
+      "moved": "«{{title}}» «{{status}}» бағанына жылжытылды"
+    },
+    "deleteConfirm": {
+      "title": "Тапсырманы жою",
+      "message": "«{{title}}» тапсырмасын жоясыз ба? Бұл әрекетті болдырмау мүмкін емес."
+    },
+    "form": {
+      "titleLabel": "Атауы",
+      "descriptionLabel": "Сипаттама",
+      "assigneeLabel": "Орындаушы ID (міндетті емес)",
+      "assigneePlaceholder": "Пайдаланушы UUID",
+      "priorityLabel": "Басымдық",
+      "dueDateLabel": "Мерзімі (міндетті емес)",
+      "titleRequired": "Атауы міндетті"
+    },
+    "createModal": {
+      "title": "Жаңа тапсырма"
+    },
+    "editModal": {
+      "title": "Тапсырманы өңдеу"
+    }
+  },
+  "files": {
+    "heading": "Файлдар",
+    "dropHint": "Файлды осында тастаңыз немесе",
+    "browse": "файлды таңдаңыз",
+    "uploading": "Жүктелуде...",
+    "empty": "Әзірге файл жоқ.",
+    "downloadAria": "{{name}} жүктеп алу",
+    "deleteAria": "{{name}} жою",
+    "toasts": {
+      "uploaded": "«{{name}}» файлы жүктелді",
+      "deleted": "«{{name}}» файлы жойылды"
+    },
+    "deleteConfirm": {
+      "title": "Файлды жою",
+      "message": "«{{name}}» файлын жоясыз ба? Бұл әрекетті болдырмау мүмкін емес."
+    }
+  },
+  "modal": {
+    "closeAria": "Жабу"
+  },
+  "toast": {
+    "dismissAria": "Хабарламаны жабу"
+  }
+}
