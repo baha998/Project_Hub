@@ -24,4 +24,11 @@ var (
 	// given assigneeId is not a well-formed UUID or does not match an
 	// existing user.
 	ErrInvalidAssignee = errors.New("assignee does not exist")
+
+	// ErrOwnerNotFound is returned by ProjectUsecase.Create when the
+	// caller's own JWT-derived user ID no longer names an existing user
+	// (e.g. the account was deleted, or the token was issued against a
+	// different database) — an authentication problem, not a validation
+	// error in the request body.
+	ErrOwnerNotFound = errors.New("authenticated user no longer exists")
 )

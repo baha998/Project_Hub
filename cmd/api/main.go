@@ -51,7 +51,7 @@ func main() {
 	// Usecases.
 	adminSecretKey := getEnv("ADMIN_SECRET_KEY", "kbtu_curator_secret_2026")
 	authUC := usecase.NewAuthUsecase(userRepo, tokens, adminSecretKey)
-	projectUC := usecase.NewProjectUsecase(projectRepo)
+	projectUC := usecase.NewProjectUsecase(projectRepo, userRepo)
 	taskUC := usecase.NewTaskUsecase(taskRepo, projectRepo, userRepo)
 	fileUC := usecase.NewFileUsecase(fileRepo)
 	analyticsUC := usecase.NewAnalyticsUsecase(analyticsRepo)

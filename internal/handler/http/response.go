@@ -53,6 +53,8 @@ func writeUsecaseError(w http.ResponseWriter, err error) {
 		writeError(w, http.StatusBadRequest, "assignee does not exist")
 	case errors.Is(err, usecase.ErrInvalidCredentials):
 		writeError(w, http.StatusUnauthorized, "invalid email or password")
+	case errors.Is(err, usecase.ErrOwnerNotFound):
+		writeError(w, http.StatusUnauthorized, "authenticated user no longer exists, please log in again")
 	default:
 		writeInternalError(w, err)
 	}

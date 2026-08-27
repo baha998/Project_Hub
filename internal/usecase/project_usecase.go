@@ -9,20 +9,35 @@ import (
 )
 
 // ProjectUsecase wraps ProjectRepository with the access rules from the PRD:
-// only LEAD and ADMIN accounts may create projects.
+// only LEAD and ADMIN accounts may create projects. It also depends on
+// UserRepository so it can confirm the caller's JWT still refers to a real
+// account before insert — a token can outlive the user it names (deleted
+// account, or a token minted against a different database), and without
+// this check that surfaces as an opaque 500 from a foreign-key violation
+// instead of a clear auth error.
 type ProjectUsecase struct {
 	projects domain.ProjectRepository
+	users    domain.UserRepository
 }
 
-func NewProjectUsecase(projects domain.ProjectRepository) *ProjectUsecase {
-	return &ProjectUsecase{projects: projects}
+func NewProjectUsecase(projects domain.ProjectRepository, users domain.UserRepository) *ProjectUsecase {
+	return &ProjectUsecase{projects: projects, users: users}
 }
 
 // Create makes a new project owned by ownerID. It fails with ErrForbidden
-// unless the caller holds the LEAD or ADMIN role.
+// unless the caller holds the LEAD or ADMIN role, and with
+// ErrOwnerNotFound if ownerID (taken from the caller's JWT, never from
+// request input) no longer names an existing user.
 func (uc *ProjectUsecase) Create(ctx context.Context, ownerID string, ownerRole domain.UserRole, title, description string) (*domain.Project, error) {
 	if ownerRole != domain.UserRoleLead && ownerRole != domain.UserRoleAdmin {
 		return nil, ErrForbidden
+	}
+
+	if _, err := uc.users.GetByID(ctx, ownerID); err != nil {
+		if errors.Is(err, domain.ErrNotFound) {
+			return nil, ErrOwnerNotFound
+		}
+		return nil, fmt.Errorf("looking up project owner %q: %w", ownerID, err)
 	}
 
 	project := &domain.Project{
