@@ -26,7 +26,8 @@
     "brand": "Project Hub",
     "logout": "Log out",
     "login": "Log in",
-    "register": "Sign up"
+    "register": "Sign up",
+    "skipContent": "Skip to content"
   },
   "auth": {
     "login": {
@@ -122,7 +123,9 @@
       "students": "Students / Teams",
       "filesUploaded": "Specs Uploaded",
       "approved": "Approved",
-      "pending": "Pending Sign-off"
+      "pending": "Pending Sign-off",
+      "totalProjects": "Total projects",
+      "progress": "Project completion"
     },
     "table": {
       "title": "Title",
@@ -135,7 +138,10 @@
       "filesCount": "{{count}} file(s)",
       "noFiles": "no files",
       "approve": "Approve"
-    }
+    },
+    "curatorWorkspace": "Curator workspace",
+    "teamWorkspace": "Team workspace",
+    "subtitle": "Keep work moving. Review progress, align your team, and prepare for defense."
   },
   "projectDetail": {
     "loading": "Loading...",
@@ -221,5 +227,9 @@
   },
   "toast": {
     "dismissAria": "Dismiss notification"
+  },
+  "theme": {
+    "light": "Switch to light mode",
+    "dark": "Switch to dark mode"
   }
 }

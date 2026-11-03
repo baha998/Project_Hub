@@ -8,7 +8,7 @@ const DEFAULT_API_URL = `http://localhost:8080${API_VERSION_PREFIX}`;
  * but it's an easy mistake to set it to just the bare origin — normalizing here means
  * either form ends up hitting the right path instead of a 404. */
 function resolveBaseURL(): string {
-  const raw = import.meta.env.VITE_API_URL;
+  const raw = import.meta.env.VITE_API_URL?.trim();
   if (!raw) return DEFAULT_API_URL;
   const trimmed = raw.replace(/\/+$/, "");
   return trimmed.endsWith(API_VERSION_PREFIX) ? trimmed : `${trimmed}${API_VERSION_PREFIX}`;
@@ -20,6 +20,7 @@ export const TOKEN_STORAGE_KEY = "project_hub_token";
 
 const api = axios.create({
   baseURL: BASE_URL,
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json",
   },

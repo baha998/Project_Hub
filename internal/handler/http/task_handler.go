@@ -39,6 +39,15 @@ func parseTaskPriority(raw string) (domain.TaskPriority, bool) {
 
 // Create handles POST /api/v1/projects/{id}/tasks.
 func (h *TaskHandler) Create(w http.ResponseWriter, r *http.Request) {
+	caller, ok := middleware.UserFromContext(r.Context())
+	if !ok {
+		writeError(w, http.StatusUnauthorized, "authentication required")
+		return
+	}
+	if caller.Role != domain.UserRoleAdmin && caller.Role != domain.UserRoleLead {
+		writeError(w, http.StatusForbidden, "only ADMIN or LEAD may create tasks")
+		return
+	}
 	projectID := r.PathValue("id")
 
 	var req createTaskRequest

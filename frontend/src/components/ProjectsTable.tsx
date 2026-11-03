@@ -43,11 +43,11 @@ export default function ProjectsTable({
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[820px] text-left text-sm">
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <tr className="border-b border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-950 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-neutral-400">
               <th className="px-4 py-3">{t("projects.table.title")}</th>
               <th className="px-4 py-3">{t("projects.table.status")}</th>
               <th className="px-4 py-3">{t("projects.table.owner")}</th>
@@ -57,18 +57,18 @@ export default function ProjectsTable({
               <th className="px-4 py-3">{t("projects.table.date")}</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-slate-200 dark:divide-neutral-800">
             {projects.map((project) => {
               const p = progress[project.id];
               const percent = p && p.total > 0 ? Math.round((p.done / p.total) * 100) : 0;
               const files = filesCount[project.id];
               const isToggling = togglingId === project.id;
               return (
-                <tr key={project.id} className="transition hover:bg-gray-50">
+                <tr key={project.id} className="transition hover:bg-slate-50 dark:hover:bg-neutral-950">
                   <td className="px-4 py-3">
                     <Link
                       to={`/projects/${project.id}`}
-                      className="font-medium text-gray-900 hover:text-indigo-600 hover:underline"
+                      className="font-medium text-slate-900 dark:text-slate-100 hover:text-zinc-900 dark:hover:text-slate-100 hover:underline"
                     >
                       {project.title}
                     </Link>
@@ -76,16 +76,16 @@ export default function ProjectsTable({
                   <td className="px-4 py-3">
                     <ProjectStatusBadge status={project.status} />
                   </td>
-                  <td className="px-4 py-3 text-gray-500">
+                  <td className="px-4 py-3 text-slate-500 dark:text-neutral-400">
                     {project.ownerId === currentUserId ? t("common.you") : project.ownerId.slice(0, 8)}
                   </td>
                   <td className="px-4 py-3">
                     {progressLoading && files === undefined ? (
-                      <span className="text-xs text-gray-400">…</span>
+                      <span className="text-xs text-slate-500 dark:text-neutral-400">…</span>
                     ) : (
                       <span
                         className={`inline-flex items-center gap-1 text-xs font-medium ${
-                          files ? "text-gray-700" : "text-gray-400"
+                          files ? "text-slate-700 dark:text-slate-300" : "text-slate-500 dark:text-neutral-400"
                         }`}
                       >
                         <FileText className="h-3.5 w-3.5" />
@@ -95,7 +95,7 @@ export default function ProjectsTable({
                   </td>
                   <td className="px-4 py-3">
                     {progressLoading && !p ? (
-                      <span className="text-xs text-gray-400">…</span>
+                      <span className="text-xs text-slate-500 dark:text-neutral-400">…</span>
                     ) : (
                       <div className="w-40">
                         <ProgressBar
@@ -110,11 +110,12 @@ export default function ProjectsTable({
                       <button
                         type="button"
                         onClick={() => onToggleApproval(project)}
+                        aria-pressed={project.isApprovedByCurator}
                         disabled={isToggling}
                         className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium transition disabled:opacity-50 ${
                           project.isApprovedByCurator
-                            ? "bg-green-100 text-green-700 hover:bg-green-200"
-                            : "bg-amber-100 text-amber-700 hover:bg-amber-200"
+                            ? "bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-300 hover:bg-green-200"
+                            : "bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-200"
                         }`}
                       >
                         {project.isApprovedByCurator ? (
@@ -132,7 +133,7 @@ export default function ProjectsTable({
                       <ApprovalBadge approved={project.isApprovedByCurator} />
                     )}
                   </td>
-                  <td className="px-4 py-3 text-gray-500">{formatDate(project.createdAt)}</td>
+                  <td className="px-4 py-3 text-slate-500 dark:text-neutral-400">{formatDate(project.createdAt)}</td>
                 </tr>
               );
             })}

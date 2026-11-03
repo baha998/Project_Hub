@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   CheckCircle2,
@@ -46,7 +46,7 @@ export default function ProjectsPage() {
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [statusFilter, setStatusFilter] = useState<ProjectStatus | "ALL">("ALL");
-  const [view, setView] = useState<ViewMode>("grid");
+  const [view, setView] = useState<ViewMode>(role === "ADMIN" ? "table" : "grid");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -87,7 +87,7 @@ export default function ProjectsPage() {
     }
   }
 
-  async function loadProjects() {
+  const loadProjects = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -98,11 +98,11 @@ export default function ProjectsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [statusFilter]);
 
   useEffect(() => {
     void loadProjects();
-  }, [statusFilter]);
+  }, [loadProjects]);
 
   // Task completion and file counts power the progress bar shown in both
   // the grid and table views, fetched (per project, via the existing
@@ -152,14 +152,18 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
+    <div className="mx-auto max-w-7xl px-4 py-8">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold text-gray-900">{t("projects.title")}</h1>
+        <div>
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500 dark:text-neutral-400">{t(isCurator ? "projects.curatorWorkspace" : "projects.teamWorkspace")}</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">{t("projects.title")}</h1>
+          <p className="mt-2 text-sm text-slate-500 dark:text-neutral-400">{t("projects.subtitle")}</p>
+        </div>
         {canCreate && (
           <button
             type="button"
             onClick={() => setModalOpen(true)}
-            className="flex items-center gap-1 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-700 hover:shadow"
+            className="flex items-center gap-1 rounded-lg bg-zinc-900 dark:bg-slate-100 px-4 py-2 text-sm font-medium text-white dark:text-neutral-950 shadow-sm transition hover:bg-zinc-700 dark:hover:bg-slate-300 hover:shadow"
           >
             <Plus className="h-4 w-4" />
             {t("projects.newProject")}
@@ -178,8 +182,8 @@ export default function ProjectsPage() {
               onClick={() => setStatusFilter(value)}
               className={`rounded-full px-3 py-1 text-sm font-medium transition ${
                 statusFilter === value
-                  ? "bg-indigo-600 text-white"
-                  : "bg-white text-gray-600 ring-1 ring-gray-300 hover:bg-gray-100"
+                  ? "bg-zinc-900 dark:bg-slate-100 text-white dark:text-neutral-950"
+                  : "bg-white dark:bg-neutral-900 text-slate-600 dark:text-slate-400 ring-1 ring-slate-300 dark:ring-neutral-700 hover:bg-slate-100 dark:hover:bg-neutral-800"
               }`}
             >
               {t(`projects.filters.${value}`)}
@@ -187,13 +191,13 @@ export default function ProjectsPage() {
           ))}
         </div>
 
-        <div className="flex items-center gap-1 rounded-lg bg-gray-100 p-1">
+        <div className="flex items-center gap-1 rounded-lg bg-slate-100 dark:bg-neutral-800 p-1">
           <button
             type="button"
             onClick={() => setView("grid")}
             aria-label={t("projects.viewGridAria")}
             className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition ${
-              view === "grid" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-800"
+              view === "grid" ? "bg-white dark:bg-neutral-900 text-slate-900 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-neutral-400 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
             <LayoutGrid className="h-4 w-4" />
@@ -204,7 +208,7 @@ export default function ProjectsPage() {
             onClick={() => setView("table")}
             aria-label={t("projects.viewTableAria")}
             className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition ${
-              view === "table" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-800"
+              view === "table" ? "bg-white dark:bg-neutral-900 text-slate-900 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-neutral-400 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
           >
             <TableIcon className="h-4 w-4" />
@@ -213,11 +217,11 @@ export default function ProjectsPage() {
         </div>
       </div>
 
-      {loading && <p className="text-sm text-gray-500">{t("common.loading")}</p>}
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {loading && <p className="text-sm text-slate-500 dark:text-neutral-400">{t("common.loading")}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-300">{error}</p>}
 
       {!loading && !error && projects.length === 0 && (
-        <div className="flex flex-col items-center gap-2 py-16 text-center text-gray-500">
+        <div className="flex flex-col items-center gap-2 py-16 text-center text-slate-500 dark:text-neutral-400">
           <FolderKanban className="h-10 w-10" />
           <p>{t("projects.empty")}</p>
         </div>
@@ -232,14 +236,14 @@ export default function ProjectsPage() {
             return (
               <div
                 key={project.id}
-                className="flex flex-col rounded-lg border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="flex flex-col rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm transition hover:shadow-sm"
               >
                 <Link to={`/projects/${project.id}`} className="flex flex-1 flex-col gap-3 p-4">
                   <div className="flex items-start justify-between gap-2">
-                    <h2 className="font-semibold text-gray-900">{project.title}</h2>
+                    <h2 className="font-semibold text-slate-900 dark:text-slate-100">{project.title}</h2>
                     <ProjectStatusBadge status={project.status} />
                   </div>
-                  <p className="line-clamp-3 text-sm text-gray-500">
+                  <p className="line-clamp-3 text-sm text-slate-500 dark:text-neutral-400">
                     {project.description || t("projects.noDescription")}
                   </p>
                   {p && (
@@ -247,11 +251,11 @@ export default function ProjectsPage() {
                   )}
                 </Link>
                 {canManage && (
-                  <div className="flex items-center justify-end gap-1 border-t border-gray-100 px-3 py-1.5">
+                  <div className="flex items-center justify-end gap-1 border-t border-slate-200 dark:border-neutral-800 px-3 py-1.5">
                     <button
                       type="button"
                       onClick={() => setEditingProject(project)}
-                      className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-gray-500 transition hover:bg-indigo-50 hover:text-indigo-600"
+                      className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-slate-500 dark:text-neutral-400 transition hover:bg-slate-100 dark:hover:bg-neutral-800 hover:text-zinc-900 dark:hover:text-slate-100"
                       aria-label={t("projects.editAria", { title: project.title })}
                     >
                       <Pencil className="h-3.5 w-3.5" />
@@ -261,7 +265,7 @@ export default function ProjectsPage() {
                       type="button"
                       onClick={() => setPendingDeleteProject(project)}
                       disabled={deletingId === project.id}
-                      className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-gray-500 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                      className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-slate-500 dark:text-neutral-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 dark:hover:text-red-300 disabled:opacity-50"
                       aria-label={t("projects.deleteAria", { title: project.title })}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -345,57 +349,59 @@ function CuratorDashboard({ refreshKey }: { refreshKey: number }) {
   }, [refreshKey]);
 
   if (error) {
-    return <p className="mb-6 text-sm text-red-600">{error}</p>;
+    return <p className="mb-6 text-sm text-red-600 dark:text-red-300">{error}</p>;
   }
   if (!summary) {
     return null;
   }
 
   const stats = [
+    { label: t("projects.dashboard.totalProjects"), value: summary.totalProjects, icon: FolderKanban, accent: "bg-slate-100 text-zinc-900 dark:bg-neutral-800 dark:text-slate-100" },
+    { label: t("projects.dashboard.progress"), value: `${Math.round(summary.completedProjectsPercent)}%`, icon: LayoutGrid, accent: "bg-slate-100 text-zinc-900 dark:bg-neutral-800 dark:text-slate-100" },
     {
       label: t("projects.dashboard.students"),
       value: summary.totalStudents,
       icon: Users,
-      accent: "bg-indigo-50 text-indigo-600",
+      accent: "bg-slate-100 dark:bg-neutral-800 text-zinc-900 dark:text-slate-100",
     },
     {
       label: t("projects.dashboard.filesUploaded"),
       value: summary.totalFiles,
       icon: FileText,
-      accent: "bg-blue-50 text-blue-600",
+      accent: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-300",
     },
     {
       label: t("projects.dashboard.approved"),
       value: summary.approvedProjects,
       icon: CheckCircle2,
-      accent: "bg-green-50 text-green-600",
+      accent: "bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-300",
     },
     {
       label: t("projects.dashboard.pending"),
       value: summary.pendingApprovalProjects,
       icon: Clock,
-      accent: "bg-amber-50 text-amber-600",
+      accent: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-300",
     },
   ];
 
   return (
-    <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-900">
-        <Users className="h-4 w-4 text-indigo-600" />
+    <div className="mb-6 rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
+      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
+        <Users className="h-4 w-4 text-zinc-900 dark:text-slate-100" />
         {t("projects.dashboard.heading")}
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
         {stats.map((s) => (
           <div
             key={s.label}
-            className="flex items-center gap-3 rounded-lg border border-gray-100 bg-gray-50 p-3"
+            className="flex items-center gap-3 rounded-lg border border-slate-200 dark:border-neutral-800 bg-slate-50 dark:bg-neutral-950 p-3"
           >
             <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${s.accent}`}>
               <s.icon className="h-4 w-4" />
             </div>
             <div className="min-w-0">
-              <p className="truncate text-xs text-gray-500">{s.label}</p>
-              <p className="mt-0.5 text-xl font-semibold text-gray-900">{s.value}</p>
+              <p className="truncate text-xs text-slate-500 dark:text-neutral-400">{s.label}</p>
+              <p className="mt-0.5 text-xl font-semibold text-slate-900 dark:text-slate-100">{s.value}</p>
             </div>
           </div>
         ))}
@@ -440,18 +446,18 @@ function CreateProjectModal({
     <Modal title={t("projects.createModal.title")} onClose={onClose}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label htmlFor="title" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="title" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("projects.createModal.titleLabel")}
           </label>
           <input
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="description" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="description" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("projects.createModal.descriptionLabel")}
           </label>
           <textarea
@@ -459,14 +465,14 @@ function CreateProjectModal({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600 dark:text-red-300">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+          className="rounded-md bg-zinc-900 dark:bg-slate-100 px-4 py-2 text-sm font-medium text-white dark:text-neutral-950 hover:bg-zinc-700 dark:hover:bg-slate-300 disabled:opacity-50"
         >
           {submitting ? t("common.creating") : t("common.create")}
         </button>
@@ -516,18 +522,18 @@ function EditProjectModal({
     <Modal title={t("projects.editModal.title")} onClose={onClose}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label htmlFor="editTitle" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editTitle" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("projects.createModal.titleLabel")}
           </label>
           <input
             id="editTitle"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="editDescription" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editDescription" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("projects.createModal.descriptionLabel")}
           </label>
           <textarea
@@ -535,18 +541,18 @@ function EditProjectModal({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="editStatus" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editStatus" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("projects.editModal.statusLabel")}
           </label>
           <select
             id="editStatus"
             value={status}
             onChange={(e) => setStatus(e.target.value as ProjectStatus)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           >
             {EDITABLE_STATUSES.map((s) => (
               <option key={s} value={s}>
@@ -555,11 +561,11 @@ function EditProjectModal({
             ))}
           </select>
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600 dark:text-red-300">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+          className="rounded-md bg-zinc-900 dark:bg-slate-100 px-4 py-2 text-sm font-medium text-white dark:text-neutral-950 hover:bg-zinc-700 dark:hover:bg-slate-300 disabled:opacity-50"
         >
           {submitting ? t("common.saving") : t("common.save")}
         </button>

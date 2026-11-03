@@ -79,75 +79,79 @@ export default function RegisterPage() {
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-sm flex-col justify-center gap-6 px-4 py-8">
       <div className="flex flex-col items-center gap-2 text-center">
-        <UserPlus className="h-10 w-10 text-indigo-600" />
-        <h1 className="text-2xl font-semibold text-gray-900">{t("auth.register.title")}</h1>
+        <span className="mb-3 rounded-lg border border-slate-200 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900"><UserPlus className="h-6 w-6 text-zinc-900 dark:text-slate-100" /></span>
+        <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{t("auth.register.title")}</h1>
       </div>
 
-      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
         <div>
-          <label htmlFor="fullName" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="fullName" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("auth.register.fullName")}
           </label>
           <input
             id="fullName"
+            autoComplete="name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
           {fieldErrors.fullName && (
-            <p className="mt-1 text-xs text-red-600">{fieldErrors.fullName}</p>
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.fullName}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("auth.register.email")}
           </label>
           <input
             id="email"
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
-          {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
+          {fieldErrors.email && <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.email}</p>}
         </div>
 
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("auth.register.password")}
           </label>
           <input
             id="password"
+            autoComplete="new-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
           {fieldErrors.password && (
-            <p className="mt-1 text-xs text-red-600">{fieldErrors.password}</p>
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.password}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("auth.register.confirmPassword")}
           </label>
           <input
             id="confirmPassword"
+            autoComplete="new-password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
           {fieldErrors.confirmPassword && (
-            <p className="mt-1 text-xs text-red-600">{fieldErrors.confirmPassword}</p>
+            <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.confirmPassword}</p>
           )}
         </div>
 
         {curatorMode ? (
           <div>
-            <label htmlFor="curatorSecret" className="mb-1 block text-sm font-medium text-gray-700">
+            <label htmlFor="curatorSecret" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
               {t("auth.register.curatorSecret")}
             </label>
             <input
@@ -156,23 +160,23 @@ export default function RegisterPage() {
               value={curatorSecret}
               onChange={(e) => setCuratorSecret(e.target.value)}
               placeholder={t("auth.register.curatorSecretPlaceholder")}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
             />
             {fieldErrors.curatorSecret && (
-              <p className="mt-1 text-xs text-red-600">{fieldErrors.curatorSecret}</p>
+              <p className="mt-1 text-xs text-red-600 dark:text-red-300">{fieldErrors.curatorSecret}</p>
             )}
-            <p className="mt-1 text-xs text-gray-400">{t("auth.register.curatorHint")}</p>
+            <p className="mt-1 text-xs text-slate-500 dark:text-neutral-400">{t("auth.register.curatorHint")}</p>
           </div>
         ) : (
           <div>
-            <label htmlFor="role" className="mb-1 block text-sm font-medium text-gray-700">
+            <label htmlFor="role" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
               {t("auth.register.role")}
             </label>
             <select
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value as SelfServiceRole)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
             >
               <option value="MEMBER">{t("auth.register.roleMember")}</option>
               <option value="LEAD">{t("auth.register.roleLead")}</option>
@@ -180,12 +184,12 @@ export default function RegisterPage() {
           </div>
         )}
 
-        {formError && <p className="text-sm text-red-600">{formError}</p>}
+        {formError && <p className="text-sm text-red-600 dark:text-red-300">{formError}</p>}
 
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+          className="rounded-md bg-zinc-900 dark:bg-slate-100 px-4 py-2 text-sm font-medium text-white dark:text-neutral-950 hover:bg-zinc-700 dark:hover:bg-slate-300 disabled:opacity-50"
         >
           {submitting ? t("auth.register.submitting") : t("auth.register.submit")}
         </button>
@@ -197,15 +201,15 @@ export default function RegisterPage() {
           setCuratorMode((v) => !v);
           setFieldErrors({});
         }}
-        className="flex items-center justify-center gap-1 text-xs text-gray-400 transition hover:text-gray-600"
+        className="flex items-center justify-center gap-1 text-xs text-slate-500 dark:text-neutral-400 transition hover:text-slate-600 dark:hover:text-slate-400"
       >
         <ShieldCheck className="h-3.5 w-3.5" />
         {curatorMode ? t("auth.register.toggleToNormal") : t("auth.register.toggleToCurator")}
       </button>
 
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-slate-500 dark:text-neutral-400">
         {t("auth.register.haveAccount")}{" "}
-        <Link to="/login" className="text-indigo-600 hover:underline">
+        <Link to="/login" className="text-zinc-900 dark:text-slate-100 hover:underline">
           {t("auth.register.loginLink")}
         </Link>
       </p>

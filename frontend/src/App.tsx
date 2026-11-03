@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./context/ToastContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProjectsPage from "./pages/ProjectsPage";
@@ -10,6 +11,7 @@ import ProjectDetailPage from "./pages/ProjectDetailPage";
 
 function App() {
   return (
+    <ThemeProvider>
     <ToastProvider>
       <AuthProvider>
         <BrowserRouter>
@@ -40,6 +42,7 @@ function App() {
         </BrowserRouter>
       </AuthProvider>
     </ToastProvider>
+    </ThemeProvider>
   );
 }
 

@@ -31,15 +31,15 @@ const TOAST_ICON: Record<ToastType, typeof CheckCircle2> = {
 };
 
 const TOAST_STYLE: Record<ToastType, string> = {
-  success: "border-green-200 bg-green-50 text-green-800",
-  error: "border-red-200 bg-red-50 text-red-800",
-  info: "border-indigo-200 bg-indigo-50 text-indigo-800",
+  success: "border-green-200 dark:border-green-900/60 bg-green-50 dark:bg-green-950/40 text-green-800 dark:text-green-300",
+  error: "border-red-200 dark:border-red-900/60 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300",
+  info: "border-slate-300 dark:border-neutral-600 bg-slate-100 dark:bg-neutral-800 text-zinc-800 dark:text-slate-200",
 };
 
 const TOAST_ICON_COLOR: Record<ToastType, string> = {
   success: "text-green-500",
   error: "text-red-500",
-  info: "text-indigo-500",
+  info: "text-zinc-600 dark:text-slate-300",
 };
 
 /** Global toast notification host — replaces window.alert-style feedback

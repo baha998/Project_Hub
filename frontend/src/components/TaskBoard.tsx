@@ -19,6 +19,7 @@ import type { Task, TaskPriority, TaskStatus } from "../types";
 import Modal from "./Modal";
 import ConfirmDialog from "./ConfirmDialog";
 import { intlLocale } from "../i18n";
+import ProgressBar from "./ProgressBar";
 
 interface TaskBoardProps {
   projectId: string;
@@ -36,9 +37,9 @@ const COLUMNS: {
   headerClass: string;
   dotClass: string;
 }[] = [
-  { status: "TODO", icon: FileText, headerClass: "text-gray-600", dotClass: "bg-gray-400" },
-  { status: "IN_PROGRESS", icon: Clock, headerClass: "text-blue-700", dotClass: "bg-blue-500" },
-  { status: "DONE", icon: CheckCircle2, headerClass: "text-green-700", dotClass: "bg-green-500" },
+  { status: "TODO", icon: FileText, headerClass: "text-slate-600 dark:text-slate-400", dotClass: "bg-gray-400" },
+  { status: "IN_PROGRESS", icon: Clock, headerClass: "text-blue-700 dark:text-blue-300", dotClass: "bg-blue-500" },
+  { status: "DONE", icon: CheckCircle2, headerClass: "text-green-700 dark:text-green-300", dotClass: "bg-green-500" },
 ];
 
 const NEXT_STATUS: Partial<Record<TaskStatus, TaskStatus>> = {
@@ -47,12 +48,12 @@ const NEXT_STATUS: Partial<Record<TaskStatus, TaskStatus>> = {
 };
 
 const PRIORITY_CONFIG: Record<TaskPriority, { icon: typeof AlertCircle; className: string }> = {
-  HIGH: { icon: AlertCircle, className: "bg-red-50 text-red-700 ring-1 ring-inset ring-red-200" },
+  HIGH: { icon: AlertCircle, className: "bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 ring-1 ring-inset ring-red-200 dark:ring-red-900/60" },
   MEDIUM: {
     icon: Clock,
-    className: "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200",
+    className: "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 ring-1 ring-inset ring-amber-200 dark:ring-amber-900/60",
   },
-  LOW: { icon: CheckCircle2, className: "bg-gray-100 text-gray-600 ring-1 ring-inset ring-gray-200" },
+  LOW: { icon: CheckCircle2, className: "bg-slate-100 dark:bg-neutral-800 text-slate-600 dark:text-slate-400 ring-1 ring-inset ring-slate-200 dark:ring-neutral-800" },
 };
 
 function formatDueDate(dueDate: string, locale: string): string {
@@ -60,7 +61,7 @@ function formatDueDate(dueDate: string, locale: string): string {
 }
 
 function ticketKey(taskId: string): string {
-  return `TASK-${taskId.slice(0, 4).toUpperCase()}`;
+  return `TASK-${taskId.slice(-6).toUpperCase()}`;
 }
 
 const AVATAR_COLORS = [
@@ -88,7 +89,7 @@ function AssigneeAvatar({ assigneeId }: { assigneeId: string | null }) {
     return (
       <span
         title={t("common.notAssigned")}
-        className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border border-dashed border-gray-300 text-gray-300"
+        className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border border-dashed border-slate-300 dark:border-neutral-700 text-slate-400 dark:text-neutral-500"
       >
         <User className="h-3 w-3" />
       </span>
@@ -158,15 +159,19 @@ export default function TaskBoard({ projectId, projectOwnerId, tasks, onTasksCha
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">{t("tasks.heading")}</h2>
-        <button
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{t("tasks.heading")}</h2>
+        {canManageTasks && <button
           type="button"
           onClick={() => setModalOpen(true)}
-          className="flex items-center gap-1 rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-700 hover:shadow"
+          className="flex items-center gap-1 rounded-lg bg-zinc-900 dark:bg-slate-100 px-3 py-1.5 text-sm font-medium text-white dark:text-neutral-950 shadow-sm transition hover:bg-zinc-700 dark:hover:bg-slate-300 hover:shadow"
         >
           <Plus className="h-4 w-4" />
           {t("tasks.newTask")}
-        </button>
+        </button>}
+      </div>
+
+      <div className="mb-5 max-w-md">
+        <ProgressBar percent={safeTasks.length ? safeTasks.filter((task) => task.status === "DONE").length / safeTasks.length * 100 : 0} label={`${safeTasks.filter((task) => task.status === "DONE").length}/${safeTasks.length} ${t("tasks.status.DONE")}`} />
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -176,12 +181,12 @@ export default function TaskBoard({ projectId, projectOwnerId, tasks, onTasksCha
           return (
             <div
               key={column.status}
-              className="flex flex-col gap-3 rounded-lg bg-gray-50 p-3 ring-1 ring-gray-200"
+              className="flex flex-col gap-3 rounded-lg bg-slate-50 dark:bg-neutral-950 p-3 ring-1 ring-slate-200 dark:ring-neutral-800"
             >
               <div className="flex items-center justify-between px-1">
                 <div className={`flex items-center gap-1.5 text-sm font-semibold ${column.headerClass}`}>
                   <ColumnIcon className="h-4 w-4" />
-                  {t(`tasks.status.${column.status}`)}
+                  <span className="font-mono text-xs tracking-wide" title={t(`tasks.status.${column.status}`)}>{column.status}</span>
                 </div>
                 <span
                   className={`flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-semibold text-white ${column.dotClass}`}
@@ -197,10 +202,10 @@ export default function TaskBoard({ projectId, projectOwnerId, tasks, onTasksCha
                   return (
                     <div
                       key={task.id}
-                      className="group flex flex-col gap-2 rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md hover:ring-1 hover:ring-indigo-50"
+                      className="group flex flex-col gap-2 rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3 shadow-sm transition hover:border-slate-300 dark:hover:border-neutral-600 hover:shadow-sm hover:ring-1 hover:ring-slate-200 dark:hover:ring-neutral-700"
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <span className="text-[11px] font-medium tracking-wide text-gray-400 transition group-hover:text-indigo-500">
+                        <span className="text-[11px] font-medium tracking-wide text-slate-500 dark:text-neutral-400 transition group-hover:text-zinc-600 dark:group-hover:text-slate-300">
                           {ticketKey(task.id)}
                         </span>
                         <div className="flex flex-shrink-0 items-center gap-1">
@@ -209,7 +214,7 @@ export default function TaskBoard({ projectId, projectOwnerId, tasks, onTasksCha
                               <button
                                 type="button"
                                 onClick={() => setEditingTask(task)}
-                                className="rounded p-0.5 text-gray-300 opacity-0 transition hover:bg-indigo-50 hover:text-indigo-600 group-hover:opacity-100"
+                                className="rounded p-0.5 text-slate-400 dark:text-neutral-500 opacity-100 transition hover:bg-slate-100 dark:hover:bg-neutral-800 hover:text-zinc-900 dark:hover:text-slate-100 group-hover:opacity-100"
                                 aria-label={t("tasks.editAria", { title: task.title })}
                               >
                                 <Pencil className="h-3 w-3" />
@@ -218,7 +223,7 @@ export default function TaskBoard({ projectId, projectOwnerId, tasks, onTasksCha
                                 type="button"
                                 onClick={() => setPendingDeleteTask(task)}
                                 disabled={deletingId === task.id}
-                                className="rounded p-0.5 text-gray-300 opacity-0 transition hover:bg-red-50 hover:text-red-600 group-hover:opacity-100 disabled:opacity-50"
+                                className="rounded p-0.5 text-slate-400 dark:text-neutral-500 opacity-100 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 dark:hover:text-red-300 group-hover:opacity-100 disabled:opacity-50"
                                 aria-label={t("tasks.deleteAria", { title: task.title })}
                               >
                                 <Trash2 className="h-3 w-3" />
@@ -226,33 +231,33 @@ export default function TaskBoard({ projectId, projectOwnerId, tasks, onTasksCha
                             </>
                           )}
                           <span
-                            className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${priority.className}`}
+                            className={`flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px] font-medium ${priority.className}`}
                           >
                             <PriorityIcon className="h-3 w-3" />
-                            {t(`tasks.priority.${task.priority}`)}
+                            <span title={t(`tasks.priority.${task.priority}`)}>{task.priority}</span>
                           </span>
                         </div>
                       </div>
 
-                      <p className="font-medium leading-snug text-gray-900">{task.title}</p>
+                      <p className="font-medium leading-snug text-slate-900 dark:text-slate-100">{task.title}</p>
                       {task.description && (
-                        <p className="line-clamp-2 text-xs text-gray-500">{task.description}</p>
+                        <p className="line-clamp-2 text-xs text-slate-500 dark:text-neutral-400">{task.description}</p>
                       )}
 
                       <div className="flex items-center gap-2 pt-1">
                         <AssigneeAvatar assigneeId={task.assigneeId} />
                         {task.dueDate && (
-                          <span className="flex items-center gap-1 text-[11px] text-gray-400">
+                          <span className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-neutral-400">
                             <Clock className="h-3 w-3" />
                             {formatDueDate(task.dueDate, intlLocale(i18n.resolvedLanguage ?? i18n.language))}
                           </span>
                         )}
-                        {NEXT_STATUS[task.status] && (
+                        {NEXT_STATUS[task.status] && (role === "ADMIN" || role === "LEAD" || task.assigneeId === user?.id) && (
                           <button
                             type="button"
                             onClick={() => handleAdvance(task)}
                             disabled={movingTaskId === task.id}
-                            className="ml-auto flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-indigo-600 transition hover:bg-indigo-50 hover:text-indigo-800 disabled:opacity-50"
+                            className="ml-auto flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-zinc-900 dark:text-slate-100 transition hover:bg-slate-100 dark:hover:bg-neutral-800 hover:text-zinc-800 dark:hover:text-slate-200 disabled:opacity-50"
                           >
                             {movingTaskId === task.id ? "..." : t(`tasks.advance.${task.status}`)}
                             <ArrowRight className="h-3 w-3" />
@@ -263,7 +268,7 @@ export default function TaskBoard({ projectId, projectOwnerId, tasks, onTasksCha
                   );
                 })}
                 {columnTasks.length === 0 && (
-                  <p className="rounded-lg border border-dashed border-gray-300 py-6 text-center text-xs text-gray-400">
+                  <p className="rounded-lg border border-dashed border-slate-300 dark:border-neutral-700 py-6 text-center text-xs text-slate-500 dark:text-neutral-400">
                     {t("tasks.empty")}
                   </p>
                 )}
@@ -359,18 +364,18 @@ function CreateTaskModal({
     <Modal title={t("tasks.createModal.title")} onClose={onClose}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label htmlFor="taskTitle" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="taskTitle" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.titleLabel")}
           </label>
           <input
             id="taskTitle"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="taskDescription" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="taskDescription" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.descriptionLabel")}
           </label>
           <textarea
@@ -378,18 +383,18 @@ function CreateTaskModal({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="taskPriority" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="taskPriority" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.priorityLabel")}
           </label>
           <select
             id="taskPriority"
             value={priority}
             onChange={(e) => setPriority(e.target.value as TaskPriority)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           >
             {PRIORITIES.map((p) => (
               <option key={p} value={p}>
@@ -399,7 +404,7 @@ function CreateTaskModal({
           </select>
         </div>
         <div>
-          <label htmlFor="assigneeId" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="assigneeId" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.assigneeLabel")}
           </label>
           <input
@@ -407,11 +412,11 @@ function CreateTaskModal({
             value={assigneeId}
             onChange={(e) => setAssigneeId(e.target.value)}
             placeholder={t("tasks.form.assigneePlaceholder")}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="dueDate" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="dueDate" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.dueDateLabel")}
           </label>
           <input
@@ -419,14 +424,14 @@ function CreateTaskModal({
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600 dark:text-red-300">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+          className="rounded-md bg-zinc-900 dark:bg-slate-100 px-4 py-2 text-sm font-medium text-white dark:text-neutral-950 hover:bg-zinc-700 dark:hover:bg-slate-300 disabled:opacity-50"
         >
           {submitting ? t("common.creating") : t("common.create")}
         </button>
@@ -488,18 +493,18 @@ function EditTaskModal({
     <Modal title={t("tasks.editModal.title")} onClose={onClose}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
-          <label htmlFor="editTaskTitle" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editTaskTitle" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.titleLabel")}
           </label>
           <input
             id="editTaskTitle"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="editTaskDescription" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editTaskDescription" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.descriptionLabel")}
           </label>
           <textarea
@@ -507,18 +512,18 @@ function EditTaskModal({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="editTaskPriority" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editTaskPriority" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.priorityLabel")}
           </label>
           <select
             id="editTaskPriority"
             value={priority}
             onChange={(e) => setPriority(e.target.value as TaskPriority)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           >
             {PRIORITIES.map((p) => (
               <option key={p} value={p}>
@@ -528,7 +533,7 @@ function EditTaskModal({
           </select>
         </div>
         <div>
-          <label htmlFor="editAssigneeId" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editAssigneeId" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.assigneeLabel")}
           </label>
           <input
@@ -536,11 +541,11 @@ function EditTaskModal({
             value={assigneeId}
             onChange={(e) => setAssigneeId(e.target.value)}
             placeholder={t("tasks.form.assigneePlaceholder")}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
         <div>
-          <label htmlFor="editDueDate" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="editDueDate" className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
             {t("tasks.form.dueDateLabel")}
           </label>
           <input
@@ -548,14 +553,14 @@ function EditTaskModal({
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-md border border-slate-300 dark:border-neutral-700 px-3 py-2 text-sm focus:border-zinc-500 dark:focus:border-neutral-500 focus:outline-none"
           />
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600 dark:text-red-300">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+          className="rounded-md bg-zinc-900 dark:bg-slate-100 px-4 py-2 text-sm font-medium text-white dark:text-neutral-950 hover:bg-zinc-700 dark:hover:bg-slate-300 disabled:opacity-50"
         >
           {submitting ? t("common.saving") : t("common.save")}
         </button>

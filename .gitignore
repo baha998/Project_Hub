@@ -1,18 +1,27 @@
-# Environment variables — contains real secrets (DB passwords, JWT secret).
-# .env.example is the safe, tracked template; never un-ignore .env itself.
+# Environment variables — contains real secrets
 .env
 .env.*
 !.env.example
 
-# Go build artifacts
+# Frontend (Node / Vite / Vercel)
+node_modules/
+dist/
+build/
+.vercel/
+.npm
+*.log
+
+# Go build artifacts & binaries
 /api
+/main
 *.exe
 *.test
+*.out
 
-# Local file uploads (dev/runtime data, not source)
+# Local file uploads
 /uploads
 
-# Editor/OS cruft
+# Editor / OS cruft
 .idea
 .vscode/*
 !.vscode/extensions.json

@@ -71,34 +71,34 @@ export default function ProjectDetailPage() {
   }, [id]);
 
   if (loading) {
-    return <p className="px-4 py-8 text-center text-sm text-gray-500">{t("projectDetail.loading")}</p>;
+    return <p className="px-4 py-8 text-center text-sm text-slate-500 dark:text-neutral-400">{t("projectDetail.loading")}</p>;
   }
 
   if (error || !project) {
     return (
-      <p className="px-4 py-8 text-center text-sm text-red-600">
+      <p className="px-4 py-8 text-center text-sm text-red-600 dark:text-red-300">
         {error ?? t("projectDetail.notFound")}
       </p>
     );
   }
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-8">
+    <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8">
       {role === "ADMIN" && (
         <CuratorApprovalBanner project={project} onToggled={() => void fetchProject()} />
       )}
 
-      <section className="rounded-lg border border-gray-200 bg-white p-6">
+      <section className="rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <h1 className="text-2xl font-semibold text-gray-900">
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
             {project?.title || t("projectDetail.noTitle")}
           </h1>
           {project?.status && <ProjectStatusBadge status={project.status} />}
         </div>
-        <p className="mt-2 whitespace-pre-wrap text-sm text-gray-600">
+        <p className="mt-2 whitespace-pre-wrap text-sm text-slate-600 dark:text-slate-400">
           {project?.description || t("projectDetail.noDescription")}
         </p>
-        <p className="mt-4 text-xs text-gray-400">
+        <p className="mt-4 text-xs text-slate-500 dark:text-neutral-400">
           {t("projectDetail.creator", {
             owner: project?.ownerId ? (project.ownerId === user?.id ? t("common.you") : project.ownerId) : "—",
           })}

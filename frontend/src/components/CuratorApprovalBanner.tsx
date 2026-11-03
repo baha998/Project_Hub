@@ -40,28 +40,29 @@ export default function CuratorApprovalBanner({ project, onToggled }: CuratorApp
   return (
     <div
       className={`flex flex-col gap-3 rounded-lg border p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between ${
-        approved ? "border-green-200 bg-green-50" : "border-amber-200 bg-amber-50"
+        approved ? "border-green-200 dark:border-green-900/60 bg-green-50 dark:bg-green-950/40" : "border-amber-200 dark:border-amber-900/60 bg-amber-50 dark:bg-amber-950/40"
       }`}
     >
       <div className="flex items-start gap-3">
         <div
           className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${
-            approved ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
+            approved ? "bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-300" : "bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300"
           }`}
         >
           <GraduationCap className="h-5 w-5" />
         </div>
         <div>
-          <p className={`text-sm font-semibold ${approved ? "text-green-900" : "text-amber-900"}`}>
+          <p className={`text-sm font-semibold ${approved ? "text-green-900 dark:text-green-300" : "text-amber-900 dark:text-amber-300"}`}>
             {approved ? t("curatorBanner.approvedTitle") : t("curatorBanner.pendingTitle")}
           </p>
-          <p className="mt-0.5 text-xs text-gray-500">{t("curatorBanner.hint")}</p>
+          <p className="mt-0.5 text-xs text-slate-500 dark:text-neutral-400">{t("curatorBanner.hint")}</p>
         </div>
       </div>
 
       <button
         type="button"
         onClick={() => void handleToggle()}
+        aria-pressed={approved}
         disabled={toggling}
         className={`flex flex-shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white shadow-sm transition disabled:opacity-50 ${
           approved ? "bg-gray-500 hover:bg-gray-600" : "bg-green-600 hover:bg-green-700"

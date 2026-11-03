@@ -12,7 +12,7 @@ export default function LanguageSwitcher() {
     <div
       role="group"
       aria-label={t("language.label")}
-      className="flex items-center gap-0.5 rounded-lg bg-gray-100 p-1"
+      className="flex items-center gap-0.5 rounded-lg bg-slate-100 dark:bg-neutral-800 p-1"
     >
       {SUPPORTED_LANGUAGES.map((lng: SupportedLanguage) => (
         <button
@@ -22,8 +22,8 @@ export default function LanguageSwitcher() {
           aria-pressed={current === lng}
           className={`rounded-md px-2 py-1 text-xs font-semibold transition ${
             current === lng
-              ? "bg-white text-indigo-600 shadow-sm"
-              : "text-gray-500 hover:text-gray-800"
+              ? "bg-white dark:bg-neutral-900 text-zinc-900 dark:text-slate-100 shadow-sm"
+              : "text-slate-500 dark:text-neutral-400 hover:text-slate-800 dark:hover:text-slate-200"
           }`}
         >
           {t(`language.${lng}`)}
