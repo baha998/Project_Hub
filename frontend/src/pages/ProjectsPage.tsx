@@ -285,7 +285,6 @@ export default function ProjectsPage() {
           progress={progress}
           filesCount={filesCount}
           progressLoading={progressLoading}
-          currentUserId={user?.id}
           isCurator={isCurator}
           togglingId={togglingId}
           onToggleApproval={handleToggleApproval}

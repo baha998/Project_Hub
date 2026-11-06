@@ -26,12 +26,17 @@ WHERE u.id = demo.id AND u.email = demo.old_email AND u.role::text = demo.role;
 INSERT INTO public.users (id, email, password_hash, full_name, role)
 VALUES
   ('11111111-1111-4111-8111-111111111111', 'curator@kbtu.kz',
-   crypt('DemoHub!2026', gen_salt('bf', 10)), 'Alex Morgan', 'ADMIN'),
+   crypt('DemoHub!2026', gen_salt('bf', 10)), 'Curator', 'ADMIN'),
   ('22222222-2222-4222-8222-222222222222', 'lead@kbtu.kz',
    crypt('DemoHub!2026', gen_salt('bf', 10)), 'Sam Taylor', 'LEAD'),
   ('33333333-3333-4333-8333-333333333333', 'student@kbtu.kz',
    crypt('DemoHub!2026', gen_salt('bf', 10)), 'Jamie Lee', 'MEMBER')
 ON CONFLICT (id) DO NOTHING;
+
+-- Keep the curator demo display name in sync when seeding an existing database.
+UPDATE public.users SET full_name = 'Curator'
+WHERE id = '11111111-1111-4111-8111-111111111111'
+  AND email = 'curator@kbtu.kz' AND role = 'ADMIN';
 
 INSERT INTO public.projects (id, title, description, status, owner_id, is_approved_by_curator)
 VALUES

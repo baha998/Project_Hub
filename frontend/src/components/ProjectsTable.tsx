@@ -16,7 +16,6 @@ interface ProjectsTableProps {
   progress: Record<string, ProjectProgress>;
   filesCount: Record<string, number>;
   progressLoading: boolean;
-  currentUserId?: string;
   isCurator: boolean;
   togglingId: string | null;
   onToggleApproval: (project: Project) => void;
@@ -27,7 +26,6 @@ export default function ProjectsTable({
   progress,
   filesCount,
   progressLoading,
-  currentUserId,
   isCurator,
   togglingId,
   onToggleApproval,
@@ -58,7 +56,7 @@ export default function ProjectsTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200 dark:divide-neutral-800">
-            {projects.map((project) => {
+            {projects.map((project, index) => {
               const p = progress[project.id];
               const percent = p && p.total > 0 ? Math.round((p.done / p.total) * 100) : 0;
               const files = filesCount[project.id];
@@ -77,7 +75,7 @@ export default function ProjectsTable({
                     <ProjectStatusBadge status={project.status} />
                   </td>
                   <td className="px-4 py-3 text-slate-500 dark:text-neutral-400">
-                    {project.ownerId === currentUserId ? t("common.you") : project.ownerId.slice(0, 8)}
+                    {index + 1}
                   </td>
                   <td className="px-4 py-3">
                     {progressLoading && files === undefined ? (
